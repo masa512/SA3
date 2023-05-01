@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 
 def circ_sample(A,loc,rad):
   # Samples circular region from matrix A at location loc and with radius rad
@@ -40,4 +41,6 @@ def synthetic_sample(A,L,rad):
 
   M[M>0] = 1
 
-  return B,M
+
+  return B,M[np.newaxis,:,:].repeat(2,1,1)
+
