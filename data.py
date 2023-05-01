@@ -6,6 +6,7 @@ import os
 import torch
 import numpy as np
 from torch.utils.data import Dataset
+import .data as data
 
 def read_image(image_path = ''):
     """
@@ -34,12 +35,10 @@ class simple_dataset(Dataset):
     I = np.mean(read_image(image_path),axis=-1,keepdims=False)
     
     # Fourier Transform
-    F = 
+    F = torch.fft.fft2(I)
     
     I = torch.Tensor(I).view(1,I.shape[1],I.shape[0]).float()
     
-    # Fourier Transform (Two channels)
-    F = torch.fft.fft2(I)
     
     
     # Masking
