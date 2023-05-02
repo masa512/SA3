@@ -23,7 +23,7 @@ def TVL(img):
 def loss_wrapper(I,F,Fpred,crit,M,weights = [1,1,1,1,1]):
 
   # Define Ifuse image
-  Ffuse = M*Fpred + (1-M)*F
+  Ffuse = (1-M)*Fpred + M*F
   Ifuse = torch.real(torch.fft.ifft2(torch.fft.ifftshift(Ffuse[:,0:1,:,:]+1j*Ffuse[:,1:,:,:])))
 
   # Defile Ipred image
@@ -46,8 +46,7 @@ def loss_wrapper(I,F,Fpred,crit,M,weights = [1,1,1,1,1]):
 
   # Part 6
   loss6 = weights[5] * MSE_wrapper(Fpred,F)
-
-  return loss1,loss2,loss3,loss4,loss5
+  return loss1,loss2,loss3,loss4,loss5,loss6
 
   
 
