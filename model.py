@@ -136,6 +136,8 @@ class PConvUNet(nn.Module):
         self.dec_2 = PConvActiv(128+64,   64, dec=True, active='leaky')
         self.dec_1 = PConvActiv(64+in_ch, in_ch, dec=True, bn=False,
                                 active=None, conv_bias=True)
+        
+        self.act = nn.ReLU()
 
     def forward(self, img, mask):
         enc_f, enc_m = [img], [mask]
@@ -156,7 +158,7 @@ class PConvUNet(nn.Module):
             feature, update_mask = getattr(self, 'dec_{}'.format(layer_num))(
                     feature, update_mask, enc_f.pop(), enc_m.pop())
 
-        return feature, mask
+        return self.act(feature), mask
 
     def train(self, mode=True):
         """Override the default train() to freeze the BN parameters
