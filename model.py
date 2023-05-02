@@ -119,7 +119,7 @@ class PConvActiv(nn.Module):
 
 
 class PConvUNet(nn.Module):
-    def __init__(self, finetune, in_ch=3, layer_size=6):
+    def __init__(self, finetune, in_ch=2, out_ch=2, layer_size=6):
         super().__init__()
         self.freeze_enc_bn = True if finetune else False
         self.layer_size = layer_size
@@ -169,3 +169,4 @@ class PConvUNet(nn.Module):
         for name, module in self.named_modules():
             if isinstance(module, nn.BatchNorm2d) and 'enc' in name:
                 module.eval()
+
