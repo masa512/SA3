@@ -40,9 +40,9 @@ class simple_dataset(Dataset):
     F = torch.concatenate([torch.real(F),torch.imag(F)],dim=0)
     
     # SA Fourier (2 channel)
-    F_SA,M = SA_sample.synthetic_sample(F,3,30)
+    F_SA,M = SA_sample.synthetic_sample(F,5,30)
 
-    return (I,F,F_SA,M)
+    return (I,F,F_SA,M.float())
     
     
 
