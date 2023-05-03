@@ -21,27 +21,25 @@ def TVL(img):
   return (tv_h+tv_w)/(bs_img*c_img*h_img*w_img)
 
 
-def loss_wrapper(F,Fpred, crit,M,weights = [1,1,1,1,1]):
+def loss_wrapper(F,Fpred,crit,M,weights = [1,1,1,1,1]):
 
   # Define Ifuse image
   Ffuse = (1-M)*Fpred + M*F
-  Ifuse = torch.real(torch.fft.ifft2(torch.fft.ifftshift(Ffuse[:,0:1,:,:]+1j*Ffuse[:,1:,:,:])))
-  I = torch.real(torch.fft.ifft2(torch.fft.ifftshift(F[:,0:1,:,:]+1j*F[:,1:,:,:])))
 
   # Defile Ipred image
-  Ipred = torch.real(torch.fft.ifft2(torch.fft.ifftshift(Fpred[:,0:1,:,:]+1j*Fpred[:,1:,:,:])))
+  #Ipred = torch.real(torch.fft.ifft2(torch.fft.ifftshift(Fpred[:,0:1,:,:]+1j*Fpred[:,1:,:,:])))
 
   # Part 1 
-  loss1 = weights[0] * crit(Fpred[:,:1,:,:],F[:,:1,:,:],idx=[0], norm=False)
+  loss1 = weights[0] * crit(Fpred[:,:1,:,:],F[:,:1,:,:],idx=[0], norm=True)
 
   # Part 2
   loss2 = weights[1] * crit(Ffuse[:,:1,:,:],F[:,:1,:,:],idx=[0], norm=True)
 
   # Part 3 
-  loss3 = weights[2] * crit(Fpred[:,1:,:,:],F[:,1:,:,:],idx=[0], norm=True)
+  loss3 = weights[2] * crit(Fpred[:,:1,:,:],F[:,:1,:,:],idx=[0], norm=True)
 
   # Part 4
-  loss4 = weights[3] * crit(Ffuse[:,1:,:,:],F[:,1:,:,:],idx=[0], norm=True)
+  loss4 = weights[3] * crit(Ffuse[:,:1,:,:],F[:,:1,:,:],idx=[0], norm=True)
   
   # Part 5
   loss5 = weights[4] * MSE_wrapper(Fpred*(M),F*(M))

@@ -63,14 +63,13 @@ class simple_dataset(Dataset):
     
     # Fourier Transform (2 Channel)
     F = torch.fft.fftshift(torch.fft.fft2(I))
-    F = torch.concatenate([torch.real(F),torch.imag(F)],dim=0)
-
+    #F = torch.concatenate([torch.real(F),torch.imag(F)],dim=0)
+    F = abs(F)
     # Rescale FT
     F = rescaler(F,self.vmin,self.vmax)
     
     # SA Fourier (2 channel)
     F_SA,M = SA_sample.synthetic_sample(F,5,30)
-    
     return (F,F_SA,M.float())
     
     
