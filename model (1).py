@@ -1,3 +1,11 @@
+################# NOTE!!!!!!!! #####################################
+# This implementation was inspired by the paper
+# https://arxiv.org/pdf/1804.07723.pdf
+# And the python implementation was heavily influenced by the previous repository
+# https://github.com/tanimutomo/partialconv/blob/master/src/model.py
+#####################################################################
+
+
 import torch
 import torch.nn as nn
 
